@@ -1,2 +1,3 @@
-# node-typescript
-Nodejs basic archetype with typescript template
+# node-javascript
+
+Nodejs basic archetype with express
