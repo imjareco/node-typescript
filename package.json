@@ -1,0 +1,38 @@
+{
+  "name": "node-javascript",
+  "version": "1.0.0",
+  "description": "Nodejs basic archetype with express",
+  "main": "index.js",
+  "homepage": "https://github.com/imjareco/node-javascript#readme",
+  "author": "Jhony Dev",
+  "license": "ISC",
+  "scripts": {
+    "start": "nodemon index.js",
+    "lint:fix": "npx eslint --fix ./*.js",
+    "format": "npx prettier --write ./*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imjareco/node-javascript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imjareco/node-javascript/issues"
+  }
+}
