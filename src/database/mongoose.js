@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const { DDBB } = process.env;
 
 const connection = async () => {
