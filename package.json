@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Nodejs basic archetype with express",
   "type": "module",
-  "main": "index.js",
+  "main": "src/index.js",
   "homepage": "https://github.com/imjareco/node-javascript#readme",
   "author": "Jhony Dev",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon src/index.js",
     "lint:fix": "npx eslint --fix ./*.js",
     "format": "npx prettier --write ./*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,7 @@
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "nodemon": "^2.0.15",
+    "nodemon": "^3.1.3",
     "prettier": "^2.5.1"
   },
   "dependencies": {
@@ -25,10 +25,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "glob": "^10.4.1",
     "joi": "^17.6.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.2.4",
     "morgan": "^1.10.0",
+    "rimraf": "^5.0.7",
     "winston": "^3.13.0"
   },
   "repository": {
