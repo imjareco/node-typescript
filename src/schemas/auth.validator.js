@@ -1,7 +1,7 @@
-const Joi = require('joi');
-const { fieldSchemes } = require('./utils');
+import Joi from 'joi';
+import { fieldSchemes } from './utils.js'; 
 
-const authSchema = {
+export const authSchema = {
   login: Joi.object().options({ abortEarly: false }).keys({
     email: fieldSchemes.email.required(),
     password: fieldSchemes.password.required(),
@@ -15,5 +15,3 @@ const authSchema = {
     password: fieldSchemes.password.required(),
   }),
 };
-
-module.exports = authSchema;

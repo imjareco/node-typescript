@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const { default: logger } = require('../utils');
-
+import mongoose from 'mongoose';
+import 'dotenv/config';
+import logger from '../utils/logger.js';  // Asegúrate de que la exportación en logger.js es una exportación por defecto.
 
 const { DDBB } = process.env;
 
-const connection = async () => {
+export const connection = async () => {
   const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -16,11 +16,7 @@ const connection = async () => {
     await mongoose.connect(DDBB, options);
     logger.info('Database is now connected');
   } catch (error) {
-    logger.error(error);
+    logger.error('Error connecting with database', error);
     throw new Error('Error connecting with database');
   }
-};
-
-module.exports = {
-  connection,
 };

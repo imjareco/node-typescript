@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const headersSchema = {
+export const headersSchema = {
   // UNUSED
   secure: Joi.object()
     .options({ abortEarly: false })
@@ -9,5 +9,3 @@ const headersSchema = {
       'session-token': Joi.string().alphanum().min(3).max(200).required(),
     }),
 };
-
-module.exports = headersSchema;

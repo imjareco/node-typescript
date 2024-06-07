@@ -1,9 +1,7 @@
 const url = (version = 'v1') => `/api/${version}`;
 
-module.exports = {
-  endpoint: {
+export const endpoint = {
     base: url(),
     auth: url().concat('/auth'),
     user: url().concat('/user'),
-  },
 };
