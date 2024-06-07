@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { default: logger } = require('../utils');
 
 
 const { DDBB } = process.env;
@@ -13,9 +14,9 @@ const connection = async () => {
 
   try {
     await mongoose.connect(DDBB, options);
-    console.log('Database is now connected');
+    logger.info('Database is now connected');
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     throw new Error('Error connecting with database');
   }
 };

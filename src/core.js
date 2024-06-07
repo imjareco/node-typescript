@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const { connection } = require('./database/mongoose');
 const routes = require('./routes');
+const { default: logger } = require('./utils');
 
 const { PORT } = process.env;
 
@@ -45,7 +46,7 @@ class Core {
   start() {
     // START SERVER
     this.core.listen(this.port, () =>
-      console.log(`Server ready! on http://localhost:${this.port}`)
+      logger.info(`Server ready! on http://localhost:${this.port}`)
     );
   }
 }

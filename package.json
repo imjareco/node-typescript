@@ -2,6 +2,7 @@
   "name": "node-javascript",
   "version": "1.0.0",
   "description": "Nodejs basic archetype with express",
+  "type": "module",
   "main": "index.js",
   "homepage": "https://github.com/imjareco/node-javascript#readme",
   "author": "Jhony Dev",
@@ -25,8 +26,10 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "joi": "^17.6.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.4"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^6.2.4",
+    "morgan": "^1.10.0",
+    "winston": "^3.13.0"
   },
   "repository": {
     "type": "git",

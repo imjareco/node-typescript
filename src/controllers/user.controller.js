@@ -19,17 +19,36 @@ const findUserById = async (req = request, res = response) => {
   }
 };
 
-const getUsers = async (req = request, res = response) => {
-  const users = await User.find({ status: 'ACTIVE' });
+const getUsers = async (req = request, res = response, next) => {
+  try{
+    const body = req.body;
+    body.password = await encryptPassword(body.password);
+    const users = await createUser(req.body);
+    return res.status(201).send(users);
 
-  if (!users) {
-    return res.status(400).json({ msg: 'No users' });
+  } catch (error) {
+    logger.error('Problemas al crear un usuario');
+    if(error.code === 11000){
+      error.status = 409;
+    }
+    if(error.message.includes('validation')){
+      error.status = 400;
+    }
+    next(error);
+  }
+};
+
+
+const createUser = async (req = request, res = response) => {
+  
+  if (!user) {
+    return res.status(400).json({ msg: 'The user not exists' });
   }
 
   try {
-    res.status(201).json(users);
+    res.status(201).json(user);
   } catch (error) {
-    res.status(500).send({ error: 'Error to list users' });
+    res.status(500).send({ error: 'Error to find user' });
   }
 };
 
