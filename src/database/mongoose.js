@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
-import 'dotenv/config';
-import logger from '../utils/logger.js';  // Asegúrate de que la exportación en logger.js es una exportación por defecto.
+import logger from '../utils/logger.js'; 
 
 const { DDBB } = process.env;
 
 export const connection = async () => {
   const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
     // useCreateIndex: true,
     // useFindAndModify: false,
   };
