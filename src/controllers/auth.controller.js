@@ -1,9 +1,9 @@
-const { request, response } = require('express');
-const bcrypt = require('bcryptjs');
-const { tokenBuilder, bufferEncode } = require('../helpers');
-const User = require('../models/user');
+import { request, response } from 'express';
+import bcrypt from 'bcryptjs';
+import { tokenBuilder, bufferEncode } from '../helpers/index.js';
+import User from '../models/user.js';
 
-const signIn = async (req = request, res = response) => {
+export const signIn = async (req = request, res = response) => {
   const { username, email, password } = req.body;
 
   try {
@@ -15,8 +15,6 @@ const signIn = async (req = request, res = response) => {
         .status(400)
         .json({ msg: 'The email or password is incorrect' });
     }
-
-    // Check user status
 
     // Compare password
     const isValid = bcrypt.compareSync(password, userModel.password);
@@ -40,7 +38,7 @@ const signIn = async (req = request, res = response) => {
   }
 };
 
-const signUp = async (req = request, res = response) => {
+export const signUp = async (req = request, res = response) => {
   const { name, lastname, username, email, password } = req.body;
   const userModel = new User({ name, lastname, username, email, password });
 
@@ -62,7 +60,7 @@ const signUp = async (req = request, res = response) => {
   }
 };
 
-const logOut = async (req = request, res = response) => {
+export const logOut = async (req = request, res = response) => {
   const { email, lastSession } = req.body;
 
   // Check email exists
@@ -77,10 +75,4 @@ const logOut = async (req = request, res = response) => {
   } catch (error) {
     res.status(500).send({ error: 'Error to logout' });
   }
-};
-
-module.exports = {
-  signIn,
-  signUp,
-  logOut,
 };

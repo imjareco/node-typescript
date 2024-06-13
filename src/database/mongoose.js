@@ -1,25 +1,21 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
+import logger from '../utils/logger.js'; 
 
 const { DDBB } = process.env;
 
-const connection = async () => {
+export const connection = async () => {
   const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
     // useCreateIndex: true,
     // useFindAndModify: false,
   };
 
   try {
     await mongoose.connect(DDBB, options);
-    console.log('Database is now connected');
+    logger.info('Database is now connected');
   } catch (error) {
-    console.error(error);
+    logger.error('Error connecting with database', error);
     throw new Error('Error connecting with database');
   }
-};
-
-module.exports = {
-  connection,
 };

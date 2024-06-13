@@ -1,9 +1,9 @@
-const { request, response } = require('express');
-const bcrypt = require('bcryptjs');
-const { bufferDecode } = require('../helpers');
-const User = require('../models/user');
+import { request, response } from 'express';
+import bcrypt from 'bcryptjs';
+import { bufferDecode } from '../helpers/index.js';
+import User from '../models/user.js';
 
-const findUserById = async (req = request, res = response) => {
+export const findUserById = async (req = request, res = response) => {
   const { id } = req.params;
   const _id = bufferDecode(id).toString('ascii');
   const user = await User.findOne({ _id });
@@ -19,21 +19,34 @@ const findUserById = async (req = request, res = response) => {
   }
 };
 
-const getUsers = async (req = request, res = response) => {
-  const users = await User.find({ status: 'ACTIVE' });
-
-  if (!users) {
-    return res.status(400).json({ msg: 'No users' });
-  }
-
+export const getUsers = async (req = request, res = response, next) => {
   try {
-    res.status(201).json(users);
+    const body = req.body;
+    const users = await createUser(body);
+    return res.status(201).send(users);
   } catch (error) {
-    res.status(500).send({ error: 'Error to list users' });
+    console.error('Problemas al crear un usuario', error);
+    if (error.code === 11000) {
+      error.status = 409;
+    }
+    if (error.message.includes('validation')) {
+      error.status = 400;
+    }
+    next(error);
   }
 };
 
-const updateUser = async (req = request, res = response) => {
+export const createUser = async (userData) => {
+  try {
+    const newUser = new User(userData);
+    await newUser.save();
+    return newUser;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUser = async (req = request, res = response) => {
   const { password, ...body } = req.body;
   let newKey = '';
 
@@ -43,36 +56,27 @@ const updateUser = async (req = request, res = response) => {
     newKey = bcrypt.hashSync(password, salt);
   }
 
-  const newBody = { password: newKey, ...body };
+  const newBody = { ...body, password: newKey };
   const id = req.header('user-session');
+  const _id = bufferDecode(id).toString('ascii');
 
   try {
-    const _id = bufferDecode(id);
     const options = { new: true };
     const userModel = await User.findOneAndUpdate({ _id }, newBody, options);
-
     res.status(200).json(userModel);
   } catch (error) {
     res.status(500).send({ error: 'Error to update the user' });
   }
 };
 
-const removeUser = async (req = request, res = response) => {
+export const removeUser = async (req = request, res = response) => {
   const { id } = req.params;
+  const _id = bufferDecode(id).toString('ascii');
 
   try {
-    const _id = bufferDecode(id).toString('ascii');
     await User.findOneAndRemove({ _id });
-
     res.sendStatus(200);
   } catch (error) {
     res.status(500).send({ error: 'Error to remove user' });
   }
-};
-
-module.exports = {
-  findUserById,
-  getUsers,
-  updateUser,
-  removeUser,
 };

@@ -1,18 +1,18 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const { JWT } = process.env;
 
-const tokenBuilder = (id = '') => {
+export const tokenBuilder = (id = '') => {
   const options = {
     expiresIn: '1h',
   };
 
   return new Promise((resolve, reject) => {
     const payload = { id };
-    jwt.sign(payload, JWT, options, (e, token) => {
-      if (e) {
-        console.error(e);
-        reject(err);
+    jwt.sign(payload, JWT, options, (error, token) => {
+      if (error) {
+        console.error(error);
+        reject(error);
       } else {
         resolve(token);
       }
@@ -20,13 +20,8 @@ const tokenBuilder = (id = '') => {
   });
 };
 
-const bufferEncode = (target, type = 'base64') =>
+export const bufferEncode = (target, type = 'base64') =>
   Buffer.from(target).toString(type);
 
-const bufferDecode = (target, type = 'base64') => Buffer.from(target, type);
+export const bufferDecode = (target, type = 'base64') => Buffer.from(target, type);
 
-module.exports = {
-  tokenBuilder,
-  bufferEncode,
-  bufferDecode,
-};

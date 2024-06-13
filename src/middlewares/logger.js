@@ -1,14 +1,14 @@
-const { request, response } = require('express');
+import { request, response } from 'express';
 
 const { NODE_ENV } = process.env;
 
-exports.customLogger = (req = request, res = response, next) => {
-  // Wiston Logger
+export const customLogger = (req = request, res = response, next) => {
+  // Winston Logger (note that Winston is not actually used in this snippet; console.log is used instead)
 
   if (NODE_ENV !== 'production') {
     const { method, path } = req;
-    const request = `[${method}] --> ${path}`;
-    console.log(request);
+    const requestLog = `[${method}] --> ${path}`;
+    console.log(requestLog);
   }
 
   next();

@@ -1,4 +1,6 @@
-const validator = (property, schema) => {
+import logger from "../utils/logger.js";
+
+export const validator = (property, schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req[property]);
 
@@ -17,8 +19,7 @@ const validator = (property, schema) => {
         return { ...obj, [key]: message.replace(/"/g, '') };
       }, {});
 
-      console.log('error', message);
-      console.log('errors', messages);
+      logger.error('error', message);
 
       res.status(422).json({
         errors: messages,
@@ -26,5 +27,3 @@ const validator = (property, schema) => {
     }
   };
 };
-
-module.exports = validator;

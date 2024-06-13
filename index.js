@@ -1,7 +1,6 @@
-require('dotenv').config();
+import 'dotenv/config';
 
-const Core = require('./src/core');
+import Core from './src/core.js';
 
 const core = new Core();
-
 core.start();

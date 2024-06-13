@@ -1,10 +1,10 @@
-const { request, response } = require('express');
-const jwt = require('jsonwebtoken');
-const { bufferDecode } = require('../helpers');
+import { request, response } from 'express';
+import jwt from 'jsonwebtoken';
+import { bufferDecode } from '../helpers/index.js';
 
 const { JWT } = process.env;
 
-exports.secureStrategy = (req = request, res = response, next) => {
+export const secureStrategy = (req = request, res = response, next) => {
   const token = req.header('session-token');
   const user = req.header('user-session');
 
@@ -21,7 +21,7 @@ exports.secureStrategy = (req = request, res = response, next) => {
     if (Date.now() > exp * 1000) {
       return res.status(403).send({ message: 'The token has expired' });
     } else if (id !== bufferDecode(user).toString('ascii')) {
-      return res.status(403).send({ message: 'The token has been suplanted' });
+      return res.status(403).send({ message: 'The token has been supplanted' });
     }
   } catch (err) {
     console.error(err);

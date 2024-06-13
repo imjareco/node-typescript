@@ -1,7 +1,7 @@
-const Joi = require('joi');
-const { genericSchemes, fieldSchemes } = require('./utils');
+import Joi from 'joi';
+import { fieldSchemes, genericSchemes } from './utils.js';
 
-const userValidatorSchema = {
+export const userValidatorSchema = {
   get: genericSchemes.idSchema,
 
   put: Joi.object().options({ abortEarly: false }).keys({
@@ -15,4 +15,4 @@ const userValidatorSchema = {
   delete: genericSchemes.idSchema,
 };
 
-module.exports = userValidatorSchema;
+

@@ -1,40 +1,22 @@
-const { Schema, model } = require('mongoose');
+import mongoose from 'mongoose';
 
-const UserSchema = Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+const { Schema, model } = mongoose;
 
-  lastname: {
-    type: String,
-    required: [true, `The lastname is required`],
-  },
-
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-
-  password: {
-    type: String,
-    required: true,
-  },
-
-  registerDate: {
-    type: Date,
-  },
+const UserSchema = new Schema({
+  name: { type: String, required: true },
+  lastname: { type: String, required: false },
+  username: { type: String, required: false, unique: true },
+  email: { type: String, required: [true, 'The email is required'] , unique: true },
+  phone: { type: Number, required: true, unique: true, trim: true },
+  adress: { type: String, required: true },
+  location: { type: String, required: true, trim: true },
+  city: { type: String, required: true, trim: true },
+  postalCode: { type: Number, required: true, trim: true },
+  password: { type: String, required: true },
 
   status: {
     type: String,
-    default: 'INACTIVE',
+    default: 'ACTIVE',
     enum: ['ACTIVE', 'INACTIVE'],
   },
 
@@ -43,15 +25,15 @@ const UserSchema = Schema({
     default: 'USER_ROLE',
     enum: ['ADMIN_ROLE', 'USER_ROLE'],
   },
-
+  
   lastSession: { type: Date },
   birthday: { type: Date },
-  locale: { type: String },
-});
+}, { timestamps: true });
 
 UserSchema.methods.toJSON = function () {
-  const { _id, __v, password, ...user } = this.toObject();
+  const { __v, password, ...user } = this.toObject();
+  user.uid = this._id;
   return user;
 };
 
-module.exports = model('User', UserSchema);
+export default model('User', UserSchema);

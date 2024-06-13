@@ -1,18 +1,19 @@
-const express = require('express');
-const validator = require('../middlewares/validator');
-const userValidator = require('../schemas/user.validator');
-const {
+import express from 'express';
+import { validator } from '../middlewares/validator.js';
+import { userValidatorSchema } from '../schemas/user.validator.js';
+import {
   findUserById,
   getUsers,
+  createUser,
   updateUser,
   removeUser,
-} = require('../controllers/user.controller');
+} from '../controllers/user.controller.js';
 
 const router = express.Router();
 
-router.get('/list', getUsers);
-router.get('/:id', validator('params', userValidator.get), findUserById);
-router.put('/account', validator('body', userValidator.put), updateUser);
-router.delete('/:id', validator('params', userValidator.delete), removeUser);
+router.get('/', getUsers);
+router.get('/:id', validator('params', userValidatorSchema.get), findUserById);
+router.put('/:id', validator('body', userValidatorSchema.put), updateUser);
+router.delete('/:id', validator('params', userValidatorSchema.delete), removeUser);
 
-module.exports = router;
+export default router;

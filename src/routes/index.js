@@ -1,8 +1,10 @@
-const express = require('express');
+import express from 'express';
+import { customLogger } from '../middlewares/logger.js';
+import { secureStrategy } from '../middlewares/secureStrategy.js';
+import { endpoint } from '../config.js';
 
-const { customLogger } = require('../middlewares/logger');
-const { secureStrategy } = require('../middlewares/secureStrategy');
-const { endpoint } = require('../config');
+import authRoutes from '../routes/auth.routes.js';
+import userRoutes from '../routes/user.routes.js';
 
 const router = express.Router();
 
@@ -10,7 +12,7 @@ const router = express.Router();
 router.use(endpoint.base, customLogger);
 
 // Routes
-router.use(endpoint.auth, require('../routes/auth.routes'));
-router.use(endpoint.user, secureStrategy, require('../routes/user.routes'));
+router.use(endpoint.auth, authRoutes);
+router.use(endpoint.user, secureStrategy, userRoutes);
 
-module.exports = router;
+export default router;
