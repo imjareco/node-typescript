@@ -7,6 +7,6 @@ export const fieldSchemes = {
 
 export const genericSchemes = {
   idSchema: Joi.object().keys({
-    id: Joi.string().min(1).required(),
+    id: Joi.string().length(24).hex().required(),
   }),
 };

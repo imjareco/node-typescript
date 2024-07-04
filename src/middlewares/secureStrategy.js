@@ -1,32 +1,24 @@
-import { request, response } from 'express';
 import jwt from 'jsonwebtoken';
-import { bufferDecode } from '../helpers/index.js';
 
-const { JWT } = process.env;
+export const secureStrategy = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1]; 
 
-export const secureStrategy = (req = request, res = response, next) => {
-  const token = req.header('session-token');
-  const user = req.header('user-session');
-
-  if (!token && !user) {
-    return res.status(401).send({
-      message: 'The request does not have the authentication header',
-    });
+  if (!token) {
+    return res.status(401).json({ message: 'Authentication token is missing' });
   }
 
   try {
-    // Decode token
-    const { id, exp } = jwt.verify(token, JWT);
+    const decoded = jwt.verify(token, process.env.JWT); 
+    req.user = {
+      id: decoded.id,
+      role: decoded.role
+    };
 
-    if (Date.now() > exp * 1000) {
-      return res.status(403).send({ message: 'The token has expired' });
-    } else if (id !== bufferDecode(user).toString('ascii')) {
-      return res.status(403).send({ message: 'The token has been supplanted' });
-    }
+    next();
   } catch (err) {
     console.error(err);
-    return res.status(403).send({ message: 'The token is not valid' });
+    return res.status(403).json({ message: 'The token is not valid or has expired' });
   }
-
-  next();
 };
+

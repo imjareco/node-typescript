@@ -4,7 +4,7 @@ const { JWT } = process.env;
 
 export const tokenBuilder = (id = '') => {
   const options = {
-    expiresIn: '1h',
+    expiresIn: '24h',
   };
 
   return new Promise((resolve, reject) => {

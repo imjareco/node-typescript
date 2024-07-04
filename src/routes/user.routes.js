@@ -4,7 +4,7 @@ import { userValidatorSchema } from '../schemas/user.validator.js';
 import {
   findUserById,
   getUsers,
-  createUser,
+  updateUserPatch,
   updateUser,
   removeUser,
 } from '../controllers/user.controller.js';
@@ -13,6 +13,7 @@ const router = express.Router();
 
 router.get('/', getUsers);
 router.get('/:id', validator('params', userValidatorSchema.get), findUserById);
+router.patch('/:id', validator('body', userValidatorSchema.put), updateUserPatch);
 router.put('/:id', validator('body', userValidatorSchema.put), updateUser);
 router.delete('/:id', validator('params', userValidatorSchema.delete), removeUser);
 
